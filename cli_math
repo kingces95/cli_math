@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+source /dev/stdin < <(cli loader)
+source /dev/stdin < <(cli initialize)
+source /dev/stdin < <(cli export)
+
+help() {
+    cat << EOF
+Command
+    cli_math
+
+Global Arguments
+    --help -h               : Show this message and exit.
+    --self-test             : Run a self test.
+EOF
+}
+
+main() {
+    math::multiply() {
+        IFS='*' expr=$*; echo "$expr" | bc -l
+    }
+
+    cli::export::import cli_constant
+    cli::export math
+}
+
+self_test() { 
+    source /dev/stdin < <(main)
+    source /dev/stdin < <(cli::import cli_assert)
+
+    assert::eq ${CONSTANT_PI} '3.14159'
+    assert::eq $(math::multiply 2 3 4) 24
+}
+
+cli::load "$@"
