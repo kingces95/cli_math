@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-source /dev/stdin < <(cli loader)
-cli::import cli initialize
-cli::import cli export
+source $(cli loader)
 
 help() {
     cat << EOF
@@ -14,7 +12,7 @@ Global Arguments
 EOF
 }
 
-main() {
+export() {
     math::multiply() {
         IFS='*' expr=$*; echo "$expr" | bc -l
     }
