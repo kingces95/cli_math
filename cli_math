@@ -23,7 +23,7 @@ main() {
 
 self_test() { 
     source /dev/stdin < <(main)
-    source /dev/stdin < <(cli::import cli-assert)
+    source /dev/stdin < <(cli::source cli-assert)
 
     assert::eq ${CONSTANT_PI} '3.14159'
     assert::eq $(math::multiply 2 3 4) 24
